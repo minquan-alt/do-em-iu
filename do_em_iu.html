@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chào Em 💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffe4e1 0%, #ffb3ba 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .screen {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .screen.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: floatUp 8s infinite linear;
+            opacity: 0.7;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4em;
+            color: #ff1493;
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .typewriter {
+            font-size: 1.5em;
+            color: #8b4513;
+            text-align: center;
+            margin: 2rem 0;
+            min-height: 2em;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            margin: 1rem 0;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
+        }
+        
+        .btn.secondary {
+            background: #ddd;
+            color: #666;
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out 3;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid #ff69b4;
+            transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            background: white;
+        }
+        
+        .wheel-section {
+            cursor: pointer;
+        }
+        
+        .wheel-section:hover path {
+            filter: brightness(1.1);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid #ff1493;
+            z-index: 10;
+        }
+        
+        .prize-display {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .prize-display.show {
+            display: block;
+            animation: bounceIn 0.5s ease;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        
+        .postcard {
+            background: linear-gradient(45deg, #f4e2d7, #fbf1e3);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .postcard:hover {
+            transform: rotate(2deg);
+        }
+        
+        .postcard.open {
+            animation: openCard 0.8s ease;
+        }
+        
+        @keyframes openCard {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(-90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+        
+        .promise-list {
+            text-align: left;
+            margin: 2rem 0;
+        }
+        
+        .promise-item {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.5s ease forwards;
+        }
+        
+        .promise-item:nth-child(1) { animation-delay: 0.2s; }
+        .promise-item:nth-child(2) { animation-delay: 0.4s; }
+        .promise-item:nth-child(3) { animation-delay: 0.6s; }
+        
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .promise-icon {
+            font-size: 2em;
+            margin-right: 1rem;
+        }
+        
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            animation: confettiFall 3s linear infinite;
+        }
+        
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .sunset-bg {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+        }
+        
+        .final-message {
+            font-size: 2em;
+            color: #ff1493;
+            text-align: center;
+            margin: 2rem 0;
+            animation: fadeIn 1s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .hidden-content {
+            display: none;
+        }
+        
+        .memory-photo {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            margin: 1rem auto;
+        }
+        
+        .gift-emoji {
+            font-size: 3em;
+            margin: 1rem 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        .flowers {
+            font-size: 2em;
+            margin: 1rem 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .final-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zalo-btn {
+            background: linear-gradient(45deg, #0068FF, #0084FF);
+            color: white;
+        }
+
+        .zalo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 104, 255, 0.3);
+        }
+
+        .facebook-btn {
+            background: linear-gradient(45deg, #1877F2, #42A5F5);
+            color: white;
+        }
+
+        .facebook-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(24, 119, 242, 0.3);
+        }
+
+        .reminder-message {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <!-- Màn Chờ (Landing Page) -->
+    <div class="screen active" id="screen0">
+        <div class="logo">Gởi bé Tiên 💕</div>
+        <div class="typewriter" id="typewriter"></div>
+        <button class="btn" onclick="nextScreen(1)">Bắt đầu nào 💕</button>
+    </div>
+    
+    <!-- Màn 1: Lời Xin Lỗi -->
+    <div class="screen" id="screen1">
+        <div class="card">
+            <h1 class="shake" id="sorryTitle">Anh xin lỗi 😔</h1>
+            <p style="margin: 2rem 0; font-size: 1.2em; color: #666;">
+                Anh biết dạo gần đầy anh đã làm em buồn nhiều. Khoảnh khắc em khóc thì anh đã biết là anh đã sai, rất sai...<br><br>
+                Để rồi đến khi em nói ra nỗi lòng cũng như những uất ức thì anh mới nhận ra bản thân mình chưa quan tâm em đủ nhiều.
+            </p>
+            <button class="btn" onmouseover="this.textContent='Nhấn tiếp đi <3'" onmouseout="this.textContent='>>'" onclick="nextScreen(12)">>></button>
+        </div>
+    </div>
+
+     <div class="screen" id="screen12">
+        <div class="card">
+            <div class="flowers">🌸 🌺 🌸</div>
+            <h1 class="shake" style="margin-bottom: 20px;">Anh hiểu em đau lòng</h1>
+            <p style="margin-bottom: 20px;">
+                Anh biết những lúc em buồn, em thất vọng vì anh. Những khi em cần anh mà anh lại bận việc khác. 
+                Những lúc em muốn được quan tâm, được yêu thương nhưng anh lại không để ý đến cảm xúc của em.
+            </p>
+            <p style="background-color:#fecfef; padding: 5px; margin-bottom: 20px; font-style: italic; border-radius: 40%;">
+                <span class="heart">❤️</span> Anh thật sự xin lỗi vì đã làm em khóc <span class="heart">❤️</span>
+            </p>
+            <button class="btn secondary" onclick="nextScreen(3)" style="background-color:#ff69b4; color: white;">Em đừng buồn nữa nha</button>
+        </div>
+    </div>
+    
+    <div class="screen" id="screen2">
+        <div class="card">
+            <h2 style="margin-bottom: 2rem; color: #ff1493;">Vòng Quay Tình Yêu 💖</h2>
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <svg class="wheel" id="wheel" viewBox="0 0 300 300">
+                    <!-- Phần 1: Nụ Hôn -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 150 0 A 150 150 0 0 1 256.066 43.934 Z" fill="#ff69b4"/>
+                        <text x="190" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">💋<tspan x="190" dy="15">Nụ Hôn</tspan></text>
+                    </g>
+                    <!-- Phần 2: Ôm Ấp -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 256.066 43.934 A 150 150 0 0 1 300 150 Z" fill="#ff1493"/>
+                        <text x="240" y="100" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🤗<tspan x="240" dy="15">Ôm Ấp</tspan></text>
+                    </g>
+                    <!-- Phần 3: Hoa -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 300 150 A 150 150 0 0 1 256.066 256.066 Z" fill="#ff69b4"/>
+                        <text x="240" y="200" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🌸<tspan x="240" dy="15">Hoa</tspan></text>
+                    </g>
+                    <!-- Phần 4: Chocolate -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 256.066 256.066 A 150 150 0 0 1 150 300 Z" fill="#ff1493"/>
+                        <text x="190" y="240" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🍫<tspan x="190" dy="15">Chocolate</tspan></text>
+                    </g>
+                    <!-- Phần 5: Bài Thơ -->
+                    <!-- <g class="wheel-section">
+                        <path d="M 150 150 L 150 300 A 150 150 0 0 1 43.934 256.066 Z" fill="#ff69b4"/>
+                        <text x="110" y="240" text-anchor="middle" fill="white" font-size="12" font-weight="bold">📝<tspan x="110" dy="15">Bài Thơ</tspan></text>
+                    </g> -->
+                    <!-- Phần 6: Kỷ Niệm -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 43.934 256.066 A 150 150 0 0 1 0 150 Z" fill="#ff1493"/>
+                        <text x="60" y="200" text-anchor="middle" fill="white" font-size="12" font-weight="bold">📷<tspan x="60" dy="15">Kỷ Niệm</tspan></text>
+                    </g>
+                    <!-- Phần 7: Âm Nhạc -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 0 150 A 150 150 0 0 1 43.934 43.934 Z" fill="#ff69b4"/>
+                        <text x="60" y="100" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🎵<tspan x="60" dy="15">Âm Nhạc</tspan></text>
+                    </g>
+                    <!-- Phần 8: Surprise -->
+                    <g class="wheel-section">
+                        <path d="M 150 150 L 43.934 43.934 A 150 150 0 0 1 150 0 Z" fill="#ff1493"/>
+                        <text x="110" y="60" text-anchor="middle" fill="white" font-size="12" font-weight="bold">🎁<tspan x="110" dy="15">Surprise</tspan></text>
+                    </g>
+                </svg>
+            </div>
+            <button class="btn" onclick="spinWheel()">Quay Nào! 🎲</button>
+            <div class="prize-display" id="prizeDisplay">
+                <div id="prizeContent"></div>
+            </div>
+            <button class="btn hidden-content" id="continueBtn" onclick="nextScreen(3)">Tiếp tục 💕</button>
+        </div>
+    </div>
+    
+    <!-- Màn 3: Lời Nhắn Bí Mật -->
+    <div class="screen" id="screen3">
+        <div class="postcard" id="postcard" onclick="openPostcard()">
+            <h3 style="font-family: 'Dancing Script', cursive; color: #8b4513; margin-bottom: 1rem;">
+                Em nhớ lần đầu mình đi biển cùng nhau chứ?
+            </h3>
+            <div class="memory-photo">
+                <img src="/IMG_4540.png" style="width: 100%" alt="">
+                <!-- 📸 Kỷ niệm của chúng ta -->
+            </div>
+            <div class="gift-emoji">🎁</div>
+            <p style="color: #666;" id="thiep-mo">Bấm để mở thiệp</p>
+            <div class="hidden-content" id="secretMessage">
+                <h2 style="color: #ff1493; margin: 1rem 0;">💕 Lời Nhắn Từ Trái Tim 💕</h2>
+                <p style="font-size: 1.1em; line-height: 1.6; color: #444;">
+                    "Dù sao đi chăng nữa thì anh cảm ơn em đã luôn ủng hộ anh, luôn chờ anh, luôn tha thứ cho những lỗi lầm của anh. 
+                    Em là ánh sáng trong cuộc đời anh, là cả thế giới của anh, là động lực để anh trở thành phiên bản tốt hơn mỗi ngày.
+                    Và em hãy nhớ em là con gái, là cô bé của anh 💕. Đừng quên những điều đó để rồi phải chịu đựng, kìm nén điều gì cả."
+                </p>
+                <button class="btn" onclick="showKissButton()">>></button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Màn 4: Lời Hứa & Kết Thúc -->
+    <div class="screen sunset-bg" id="screen4">
+        <div class="card">
+            <h2 style="color: #ff1493; margin-bottom: 2rem;">Lời Hứa Của Anh 🌅</h2>
+            <div class="promise-list">
+                <div class="promise-item">
+                    <div class="promise-icon">👂</div>
+                    <div>Sẽ học cách để tinh tế với em nhiều hơn.</div>
+                </div>
+                <div class="promise-item">
+                    <div class="promise-icon">💝</div>
+                    <div>Sẽ quan tâm, để ý, chăm lo cho em hơn nữa.</div>
+                </div>
+                <div class="promise-item">
+                    <div class="promise-icon">🛡️</div>
+                    <div>Sẽ không để em tổn thương thêm lần nữa</div>
+                </div>
+            </div>
+            <button class="btn" onclick="showFinalQuestion()">>></button>
+        </div>
+    </div>
+    
+    <!-- Màn 5: Câu Hỏi Cuối -->
+    <div class="screen" id="screen5">
+        <div class="card">
+            <div class="final-message">Em tha lỗi cho anh nhaaa? 🥰</div>
+            <div class="button-group">
+                <button class="btn" onclick="believeMe()">Tha lỗi ✨</button>
+                <button class="btn secondary" onclick="notYet()">Không tha 😔</button>
+            </div>
+            <div class="hidden-content" id="finalResult"></div>
+        </div>
+    </div>
+    
+    <div class="confetti" id="confetti"></div>
+
+    <div class="screen" id="screen6">
+        <div class="card">
+            <div class="final-message">Add lại mấy tài khoản MXH anh với 🥰</div>
+            <div class="button-group">
+                <a href="#" class="social-btn zalo-btn" id="zaloBtn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Bump
+                </a>
+                <a href="#" class="social-btn facebook-btn" id="facebookBtn">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    Facebook
+                </a>
+            </div>
+            <div class="reminder-message">
+                ⚠️ Nhớ mở block Zalo để nhận tin nhắn nhé! ⚠️
+            </div>
+            <div class="hidden-content" id="finalResult"></div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        let currentScreen = 0;
+        let isSpinning = false;
+        
+        // Tạo trái tim bay
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floatingHearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '💕';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 8000);
+            }, 2000);
+        }
+        
+        // Hiệu ứng gõ máy
+        function typeWriter(text, elementId, speed = 100) {
+            const element = document.getElementById(elementId);
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+        
+        // Chuyển màn hình
+        function nextScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            setTimeout(() => {
+                document.getElementById(`screen${screenNum}`).classList.add('active');
+                currentScreen = screenNum;
+                
+                // Trigger animations cho màn hình mới
+                if (screenNum === 1) {
+                    setTimeout(() => {
+                        document.getElementById('sorryTitle').classList.add('shake');
+                    }, 500);
+                }
+            }, 300);
+        }
+        
+        // Quay bánh xe
+        function spinWheel() {
+            if (isSpinning) return;
+            
+            isSpinning = true;
+            const wheel = document.getElementById('wheel');
+            const prizes = [
+                { text: '💋 Nụ Hôn Ngọt Ngào', content: 'Anh sẽ hôn em thật nhiều! 💋💋💋' },
+                { text: '🤗 Ôm Ấp Ấm Áp', content: 'Đến đây để anh ôm em thật chặt! 🤗' },
+                { text: '🌸 Hoa Tươi Đẹp', content: 'Anh sẽ mua hoa cho em mỗi ngày! 🌸🌺🌻' },
+                { text: '🍫 Chocolate Ngọt', content: 'Chocolate ngọt nhưng không ngọt bằng em! 🍫' },
+                { text: '📝 Bài Thơ Tình', content: 'Em là ánh sáng trong đêm tối<br>Là niềm vui trong trái tim tôi 💕' },
+                { text: '📷 Kỷ Niệm Đẹp', content: 'Những kỷ niệm với em là báu vật của anh! 📷' },
+                { text: '🎵 Âm Nhạc Tình', content: 'Anh sẽ hát cho em nghe mỗi đêm! 🎵🎶' },
+                { text: '🎁 Surprise Đặc Biệt', content: 'Anh có một món quà bất ngờ cho em! 🎁✨' }
+            ];
+            
+            const spins = Math.floor(Math.random() * 8) + 8;
+            const finalRotation = spins * 360 + Math.floor(Math.random() * 360);
+            
+            wheel.style.transform = `rotate(${finalRotation}deg)`;
+            
+            setTimeout(() => {
+                const prizeIndex = Math.floor((360 - (finalRotation % 360)) / 45);
+                const selectedPrize = prizes[prizeIndex] || prizes[0];
+                
+                showPrize(selectedPrize);
+                isSpinning = false;
+            }, 3000);
+        }
+        
+        // Hiển thị phần thưởng
+        function showPrize(prize) {
+            const prizeDisplay = document.getElementById('prizeDisplay');
+            const prizeContent = document.getElementById('prizeContent');
+            
+            prizeContent.innerHTML = `
+                <h3 style="color: #ff1493; margin-bottom: 1rem;">${prize.text}</h3>
+                <p style="font-size: 1.1em;">${prize.content}</p>
+            `;
+            
+            prizeDisplay.classList.add('show');
+            document.getElementById('continueBtn').classList.remove('hidden-content');
+            
+            // Tạo confetti
+            createConfetti();
+        }
+        
+        // Mở thiệp
+        function openPostcard() {
+            const postcard = document.getElementById('postcard');
+            const secretMessage = document.getElementById('secretMessage');
+            const thiepMo = document.getElementById('thiep-mo');
+            
+            postcard.classList.add('open');
+            thiepMo.textContent = "Chà, lần này anh nhớ 2 đứa có khá là nhiều ước hẹn và cũng đã đi được cùng nhau đến bây giờ và hoàn thành được khá nhiều điều 🤗.Có mỗi 1 lời hứa rằng là anh sẽ không để cho em buồn, không để cho em lo nghĩ nhiều, anh sẽ gánh vác để em được sống vui vẻ và hạnh phúc thì anh vẫn chưa làm được 😢."
+            
+            setTimeout(() => {
+                secretMessage.classList.remove('hidden-content');
+                postcard.onclick = null;
+            }, 800);
+        }
+        
+        // Hiển thị nút hôn
+        function showKissButton() {
+            // Thêm nhạc nền hoặc hiệu ứng đặc biệt
+            createConfetti();
+            
+            setTimeout(() => {
+                nextScreen(4);
+            }, 1000);
+        }
+        
+        // Hiển thị câu hỏi cuối
+        function showFinalQuestion() {
+            nextScreen(5);
+        }
+        
+        // Tin tưởng
+        function believeMe() {
+            const finalResult = document.getElementById('finalResult');
+            finalResult.innerHTML = `
+                <div class="final-message" style="color: #ff1493;">
+                    🎉Cảm ơn pé yêuuu! 🎉
+                </div>
+                <img src="IMG_3605.png" style="width:100%;">
+                <button class="btn" onclick="nextScreen(6)">Add anhhhh</button>
+            `;
+            finalResult.classList.remove('hidden-content');
+            
+            // Bắn pháo bông lớn
+            createMegaConfetti();
+        }
+        
+        // Chưa tin
+        function notYet() {
+            const finalResult = document.getElementById('finalResult');
+            finalResult.innerHTML = `
+                <div class="final-message" style="color: #ff8c00;">
+                    😣 Huhu, tha cho anh đi màaa. 😣
+                </div>
+                <img src="ea1bb8dbc5b7eadf836b3a617377b7ff.jpg" style="width:100%;">
+                <button class="btn" onclick="restartJourney()">Quay Lại 🔄</button>
+            `;
+            finalResult.classList.remove('hidden-content');
+        }
+        
+        // Bắt đầu lại
+        function restartJourney() {
+            currentScreen = 0;
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById('screen0').classList.add('active');
+            
+            // Reset các element
+            document.getElementById('prizeDisplay').classList.remove('show');
+            document.getElementById('continueBtn').classList.add('hidden-content');
+            document.getElementById('secretMessage').classList.add('hidden-content');
+            document.getElementById('finalResult').classList.add('hidden-content');
+            document.getElementById('postcard').classList.remove('open');
+            document.getElementById('postcard').onclick = openPostcard;
+            
+            // Restart typewriter
+            setTimeout(() => {
+                typeWriter("Em à, anh có chuyện muốn nói…", "typewriter");
+            }, 500);
+        }
+        
+        // Tạo confetti
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#ff69b4', '#ff1493', '#ffd700', '#ff6347', '#98fb98'];
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 3 + 's';
+                confettiContainer.appendChild(piece);
+                
+                setTimeout(() => {
+                    piece.remove();
+                }, 3000);
+            }
+        }
+        
+        // Tạo confetti lớn
+        function createMegaConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#ff69b4', '#ff1493', '#ffd700', '#ff6347', '#98fb98'];
+            
+            for (let i = 0; i < 100; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = Math.random() * 2 + 's';
+                piece.style.width = '15px';
+                piece.style.height = '15px';
+                confettiContainer.appendChild(piece);
+                
+                setTimeout(() => {
+                    piece.remove();
+                }, 3000);
+            }
+        }
+        
+        // Khởi tạo
+        window.onload = function() {
+            createFloatingHearts();
+
+            typeWriter("Em à, anh có chuyện muốn nói…", "typewriter");
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const zaloBtn = document.getElementById('zaloBtn');
+            const facebookBtn = document.getElementById('facebookBtn');
+            const finalResult = document.getElementById('finalResult');
+            const notification = document.getElementById('notification');
+
+            // Hàm hiển thị thông báo
+            function showNotification(message, type = 'success') {
+                notification.textContent = message;
+                notification.className = `notification show ${type}`;
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+
+            // Xử lý click Zalo
+            zaloBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hiển thị thông báo nhắc nhở
+                showNotification('Nhớ mở block Zalo để nhận tin nhắn nhé! 💬');
+                
+                // Cập nhật nội dung ẩn
+                finalResult.innerHTML = `
+                    <h4>🟢 Đã click Zalo</h4>
+                    <p>Hướng dẫn mở block Zalo:</p>
+                    <ol style="text-align: left; font-size: 14px;">
+                        <li>Vào Zalo → Cài đặt</li>
+                        <li>Chọn "Tin nhắn"</li>
+                        <li>Tắt "Chặn tin nhắn từ người lạ"</li>
+                        <li>Hoặc thêm số điện thoại vào danh bạ</li>
+                    </ol>
+                `;
+                finalResult.style.display = 'block';
+                
+                // Thử mở Zalo (trên mobile)
+                setTimeout(() => {
+                    // Thử mở app Zalo trước
+                    window.location.href = 'https://bumpmaps.com/i/jOw0gJ-5pGvc';
+                    
+                    // Nếu không có app, chuyển đến web
+                    setTimeout(() => {
+                        window.open('https://bumpmaps.com/i/jOw0gJ-5pGvc');
+                    }, 1000);
+                }, 500);
+            });
+
+            // Xử lý click Facebook
+            facebookBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                showNotification('Đang mở Facebook... 📘');
+                
+                // Cập nhật nội dung ẩn
+                finalResult.innerHTML = `
+                    <h4>🔵 Đã click Facebook</h4>
+                    <p>Đang chuyển hướng đến Facebook...</p>
+                `;
+                finalResult.style.display = 'block';
+                
+                // Thử mở Facebook app trước
+                setTimeout(() => {
+                    // Thử mở app Facebook
+                    window.location.href = 'fb://';
+                    
+                    // Nếu không có app, mở web
+                    setTimeout(() => {
+                        window.open('https://facebook.com/minhquangUIT');
+                    }, 1000);
+                }, 500);
+            });
+
+            // Hiệu ứng nhấp nháy cho reminder
+            const reminderMessage = document.querySelector('.reminder-message');
+            let isBlinking = false;
+            
+            function startBlinking() {
+                if (!isBlinking) {
+                    isBlinking = true;
+                    reminderMessage.style.animation = 'pulse 1s infinite';
+                    
+                    setTimeout(() => {
+                        reminderMessage.style.animation = 'pulse 2s infinite';
+                        isBlinking = false;
+                    }, 5000);
+                }
+            }
+
+            // Bắt đầu nhấp nháy sau 3 giây
+            setTimeout(startBlinking, 3000);
+
+            // Nhấp nháy lại mỗi 15 giây
+            setInterval(startBlinking, 15000);
+
+            // Xử lý responsive
+            function handleResize() {
+                if (window.innerWidth < 480) {
+                    document.querySelector('.final-message').style.fontSize = '18px';
+                } else {
+                    document.querySelector('.final-message').style.fontSize = '24px';
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Gọi ngay khi load
+
+            // Thêm hiệu ứng loading khi click
+            function addLoadingEffect(button) {
+                button.style.opacity = '0.7';
+                button.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    button.style.opacity = '1';
+                    button.style.transform = 'scale(1)';
+                }, 200);
+            }
+
+            // Thêm hiệu ứng cho các nút
+            [zaloBtn, facebookBtn].forEach(btn => {
+                btn.addEventListener('click', function() {
+                    addLoadingEffect(this);
+                });
+            });
+        });
+
+        // Hàm tiện ích để có thể gọi từ bên ngoài
+        window.socialMediaHandler = {
+            openZalo: function(phone = '0896208479') {
+                if (phone) {
+                    window.open(`https://bumpmaps.com/i/jOw0gJ-5pGvc`, '_blank');
+                } else {
+                    window.open('https://bumpmaps.com/i/jOw0gJ-5pGvc');
+                }
+            },
+            
+            openFacebook: function(username = 'minhquangUIT') {
+                window.open(`https://facebook.com/minhquangUIT`);
+            },
+            
+            showZaloReminder: function() {
+                const reminder = document.querySelector('.reminder-message');
+                reminder.style.animation = 'pulse 0.5s infinite';
+                
+                setTimeout(() => {
+                    reminder.style.animation = 'pulse 2s infinite';
+                }, 3000);
+            }
+        };
+    </script>
+</body>
+</html>
