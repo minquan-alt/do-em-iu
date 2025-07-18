@@ -410,7 +410,7 @@
 </head>
 <body>
     <div class="floating-hearts" id="floatingHearts"></div>
-    <audio id="bgMusic" src="./Ngày Tháng Sau Này - Lillie x ViAM  Ngày tháng sau này phải nhớ ở bên một người thật lòng.mp3" hidden autoplay></audio>
+    <audio id="bgMusic" src="./Ngày Tháng Sau Này - Lillie x ViAM  Ngày tháng sau này phải nhớ ở bên một người thật lòng.mp3" autoplay></audio>
         <!-- Nhạc khi tin tưởng -->
     <audio id="believeMusic" src="./XuanXuanOiXuanDaVe-V.A-3738910.mp3" hidden></audio>
 
@@ -514,7 +514,7 @@
                 Em nhớ lần đầu mình đi biển cùng nhau chứ?
             </h3>
             <div class="memory-photo">
-                <img src="/IMG_4540.png" style="width: 100%" alt="">
+                <img src="IMG_4540.png" style="width: 100%" alt="">
                 <!-- 📸 Kỷ niệm của chúng ta -->
             </div>
             <div class="gift-emoji">🎁</div>
@@ -743,7 +743,9 @@
 
             // 🔇 Tắt nhạc nền
             document.getElementById('bgMusic').pause();
+            document.getElementById('notYet').pause();
             document.getElementById('bgMusic').currentTime = 0;
+            document.getElementById('notYet').currentTime = 0;
 
             // 🔊 Phát nhạc believe
             const believeMusic = document.getElementById('believeMusic');
@@ -764,7 +766,9 @@
 
         // 🔇 Tắt nhạc nền
         document.getElementById('bgMusic').pause();
+        document.getElementById('believeMusic').pause();
         document.getElementById('bgMusic').currentTime = 0;
+        document.getElementById('believeMusic').currentTime = 0;
 
         // 🔊 Phát nhạc not yet
         const notYetMusic = document.getElementById('notYetMusic');
@@ -838,7 +842,6 @@
         // Khởi tạo
         window.onload = function() {
             createFloatingHearts();
-
             typeWriter("Em à, anh có chuyện muốn nói…", "typewriter");
         };
 
