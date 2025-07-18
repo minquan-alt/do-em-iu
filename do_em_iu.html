@@ -410,6 +410,12 @@
 </head>
 <body>
     <div class="floating-hearts" id="floatingHearts"></div>
+    <audio id="bgMusic" src="./Ngày Tháng Sau Này - Lillie x ViAM  Ngày tháng sau này phải nhớ ở bên một người thật lòng.mp3" hidden autoplay></audio>
+        <!-- Nhạc khi tin tưởng -->
+    <audio id="believeMusic" src="./XuanXuanOiXuanDaVe-V.A-3738910.mp3" hidden></audio>
+
+    <!-- Nhạc khi chưa tin -->
+    <audio id="notYetMusic" src="./troi_oi_bao_tap_mua_sa_tiktok_mp3-www_tiengdong_com.mp3" hidden></audio>
     
     <!-- Màn Chờ (Landing Page) -->
     <div class="screen active" id="screen0">
@@ -508,7 +514,7 @@
                 Em nhớ lần đầu mình đi biển cùng nhau chứ?
             </h3>
             <div class="memory-photo">
-                <img src="IMG_4540.png" style="width: 100%" alt="">
+                <img src="/IMG_4540.png" style="width: 100%" alt="">
                 <!-- 📸 Kỷ niệm của chúng ta -->
             </div>
             <div class="gift-emoji">🎁</div>
@@ -721,7 +727,6 @@
             nextScreen(5);
         }
         
-        // Tin tưởng
         function believeMe() {
             const finalResult = document.getElementById('finalResult');
             finalResult.innerHTML = `
@@ -735,20 +740,38 @@
             
             // Bắn pháo bông lớn
             createMegaConfetti();
+
+            // 🔇 Tắt nhạc nền
+            document.getElementById('bgMusic').pause();
+            document.getElementById('bgMusic').currentTime = 0;
+
+            // 🔊 Phát nhạc believe
+            const believeMusic = document.getElementById('believeMusic');
+            believeMusic.currentTime = 38;
+            believeMusic.play();
         }
-        
-        // Chưa tin
-        function notYet() {
-            const finalResult = document.getElementById('finalResult');
-            finalResult.innerHTML = `
-                <div class="final-message" style="color: #ff8c00;">
-                    😣 Huhu, tha cho anh đi màaa. 😣
-                </div>
-                <img src="ea1bb8dbc5b7eadf836b3a617377b7ff.jpg" style="width:100%;">
-                <button class="btn" onclick="restartJourney()">Quay Lại 🔄</button>
-            `;
-            finalResult.classList.remove('hidden-content');
-        }
+
+    function notYet() {
+        const finalResult = document.getElementById('finalResult');
+        finalResult.innerHTML = `
+            <div class="final-message" style="color: #ff8c00;">
+                😣 Huhu, tha cho anh đi màaa. 😣
+            </div>
+            <img src="ea1bb8dbc5b7eadf836b3a617377b7ff.jpg" style="width:100%;">
+            <button class="btn" onclick="restartJourney()">Quay Lại 🔄</button>
+        `;
+        finalResult.classList.remove('hidden-content');
+
+        // 🔇 Tắt nhạc nền
+        document.getElementById('bgMusic').pause();
+        document.getElementById('bgMusic').currentTime = 0;
+
+        // 🔊 Phát nhạc not yet
+        const notYetMusic = document.getElementById('notYetMusic');
+        notYetMusic.currentTime = 0;
+        notYetMusic.play();
+    }
+
         
         // Bắt đầu lại
         function restartJourney() {
